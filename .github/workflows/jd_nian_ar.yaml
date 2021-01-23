@@ -1,14 +1,14 @@
-name: jd_health
+name: jd_nian_ar
+# 京东炸年兽AR
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: "15 7,16 * * *"
+  schedule:
+    - cron: '0 1 * * *'
   watch:
-    types: [started]
+    types: started
   repository_dispatch:
-    types: jd_health
-
+    types: jd_nian_ar
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,8 +35,8 @@ jobs:
       - name: prepare job
         run: |
           bash <(wget -qO- https://github.com/uuz/piao/raw/main/prepare.sh)
-      - name: "Run Job"
-        run: node jd_health.js
+      - name: 'Run Job'
+        run: node jd_nian_ar.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           JD_DEBUG: ${{ secrets.JD_DEBUG }}
@@ -55,3 +55,4 @@ jobs:
           PUSH_PLUS_USER: ${{ secrets.PUSH_PLUS_USER }}
           TG_PROXY_HOST: ${{ secrets.TG_PROXY_HOST }}
           TG_PROXY_PORT: ${{ secrets.TG_PROXY_PORT }}
+          JDNIAN_SHARECODES: ${{ secrets.JDNIAN_SHARECODES }}
