@@ -1,14 +1,15 @@
-name: jd_factory_799953468
+name: jd_mh
+# 盲盒抽京豆
+# 活动时间：2021年1月6日～2021年2月5日
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: "0 */3 * * *"
+  schedule:
+    - cron: '1 11,23 * * *'
   watch:
-    types: [started]
+    types: started
   repository_dispatch:
-    types: jd_factory_799953468
-
+    types: jd_mh
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,7 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: fq3/github_LXK9301_jd_scripts
+          repository: fq3/gitee_lxk0301_jd_scripts
           ref: master
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -35,10 +36,8 @@ jobs:
       - name: prepare job
         run: |
           bash <(wget -qO- https://github.com/uuz/piao/raw/main/prepare.sh)
-      - name: "Run Job"
-        run: |
-          wget -q -O jd_factory_799953468.js https://github.com/fq3/github_799953468_Quantumult-X/raw/master/Scripts/JD/jd_factory.js
-          node jd_factory_799953468.js
+      - name: 'Run Job'
+        run: node jd_mh.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           JD_DEBUG: ${{ secrets.JD_DEBUG }}
@@ -57,5 +56,3 @@ jobs:
           PUSH_PLUS_USER: ${{ secrets.PUSH_PLUS_USER }}
           TG_PROXY_HOST: ${{ secrets.TG_PROXY_HOST }}
           TG_PROXY_PORT: ${{ secrets.TG_PROXY_PORT }}
-          FACTORY_SHARECODES: ${{ secrets.DDFACTORY_SHARECODES }}
-          SYNCURL: https://github.com/fq3/github_799953468_Quantumult-X/raw/master/Scripts/JD/jd_factory.js

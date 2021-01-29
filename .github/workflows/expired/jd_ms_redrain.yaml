@@ -1,14 +1,14 @@
-name: jd_joy_run
-# 宠汪汪赛跑
+name: jd_ms_redrain
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '15 2 * * *'
+  # schedule:
+  #   - cron: "5 12,23 * * *"
   watch:
-    types: started
+    types: [started]
   repository_dispatch:
-    types: jd_joy_run
+    types: jd_ms_redrain
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,8 +35,8 @@ jobs:
       - name: prepare job
         run: |
           bash <(wget -qO- https://github.com/uuz/piao/raw/main/prepare.sh)
-      - name: 'Run Job'
-        run: node jd_joy_run.js
+      - name: "Run Job"
+        run: node jd_ms_redrain.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           JD_DEBUG: ${{ secrets.JD_DEBUG }}
@@ -55,5 +55,3 @@ jobs:
           PUSH_PLUS_USER: ${{ secrets.PUSH_PLUS_USER }}
           TG_PROXY_HOST: ${{ secrets.TG_PROXY_HOST }}
           TG_PROXY_PORT: ${{ secrets.TG_PROXY_PORT }}
-          JOY_FEED_COUNT: ${{ secrets.JOY_FEED_COUNT }}
-          JOY_RUN_FLAG: ${{ secrets.JOY_RUN_FLAG }}

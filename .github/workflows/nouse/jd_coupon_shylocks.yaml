@@ -1,14 +1,14 @@
-name: jx_story_hundun
+name: jd_coupon_shylocks
+# 源头好物红包
 
 on:
   workflow_dispatch:
   # schedule:
-  #   - cron: "10 */4 * * *"
+  #   - cron: '0 16 * * *'
   watch:
-    types: [started]
+    types: started
   repository_dispatch:
-    types: jx_story_hundun
-
+    types: jd_coupon_shylocks
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,8 +17,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: fq3/github_LXK9301_jd_scripts
-          ref: master
+          repository: fq3/github_shylocks_Loon
+          ref: main
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -35,10 +35,8 @@ jobs:
       - name: prepare job
         run: |
           bash <(wget -qO- https://github.com/uuz/piao/raw/main/prepare.sh)
-      - name: "Run Job"
-        run: |
-          wget -q -O jx_story_hundun.js https://github.com/fq3/github_whyour_hundun/raw/master/quanx/jx_story.js
-          node jx_story_hundun.js
+      - name: 'Run Job'
+        run: node jd_coupon.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           JD_DEBUG: ${{ secrets.JD_DEBUG }}
@@ -57,4 +55,3 @@ jobs:
           PUSH_PLUS_USER: ${{ secrets.PUSH_PLUS_USER }}
           TG_PROXY_HOST: ${{ secrets.TG_PROXY_HOST }}
           TG_PROXY_PORT: ${{ secrets.TG_PROXY_PORT }}
-          SYNCURL: https://github.com/fq3/github_whyour_hundun/raw/master/quanx/jx_story.js

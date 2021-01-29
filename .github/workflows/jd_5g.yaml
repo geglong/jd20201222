@@ -1,13 +1,16 @@
-name: jd_xtg
+name: jd_5g
+# 5G狂欢城
+# 活动时间: 2021-1-30至2021-2-4
 
 on:
   workflow_dispatch:
-#   schedule:
-#     - cron: '0 16 * * *'
+  schedule:
+    - cron: "0 4,10,22,16 * * *"
   watch:
-    types: started
+    types: [started]
   repository_dispatch:
-    types: jd_xtg
+    types: jd_5g
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: fq3/github_LXK9301_jd_scripts
+          repository: fq3/gitee_lxk0301_jd_scripts
           ref: master
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -34,8 +37,8 @@ jobs:
       - name: prepare job
         run: |
           bash <(wget -qO- https://github.com/uuz/piao/raw/main/prepare.sh)
-      - name: 'Run Job'
-        run: node activity/jd_xtg.js
+      - name: "Run Job"
+        run: node jd_5g.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           JD_DEBUG: ${{ secrets.JD_DEBUG }}

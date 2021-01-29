@@ -1,14 +1,15 @@
-name: jd_ms_redrain
+name: jd_ms
+# 京东秒秒币
+# 活动时间：长期活动
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: "5 12,23 * * *"
+  schedule:
+    - cron: '10 11,23 * * *'
   watch:
-    types: [started]
+    types: started
   repository_dispatch:
-    types: jd_ms_redrain
-
+    types: jd_ms
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,7 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: fq3/github_LXK9301_jd_scripts
+          repository: fq3/gitee_lxk0301_jd_scripts
           ref: master
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -35,8 +36,8 @@ jobs:
       - name: prepare job
         run: |
           bash <(wget -qO- https://github.com/uuz/piao/raw/main/prepare.sh)
-      - name: "Run Job"
-        run: node jd_ms_redrain.js
+      - name: 'Run Job'
+        run: node jd_ms.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           JD_DEBUG: ${{ secrets.JD_DEBUG }}
