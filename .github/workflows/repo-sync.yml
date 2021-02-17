@@ -1,7 +1,8 @@
-name: repo-sync
+# File: .github/workflows/repo-sync.yml
+name: 🔄自动同步🔄
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '0 */1 * * *'
   workflow_dispatch:
   watch:
     types: started
@@ -10,25 +11,20 @@ on:
 jobs:
   repo-sync:
     env:
-      PAT: ${{ secrets.PAT }}
+      PAT: ${{ github.event.client_payload.PAT || secrets.PAT }} #此处PAT需要申请，教程详见：https://www.jianshu.com/p/bb82b3ad1d11
+      dst_key: ${{ secrets.GITEE_PRIVATE_KEY }} # 我自己同步到gitee使用，其他人可忽略
     runs-on: ubuntu-latest
-    if: github.event.repository.owner.id == github.event.sender.id && github.repository != 'uuz/actions'
+    if: github.event.repository.owner.id == github.event.sender.id
     steps:
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
 
-      - name: Sync repo to branch
+      - name: 开始🔄自动同步🔄
         uses: repo-sync/github-sync@v2
+        if: env.PAT
         with:
-          source_repo: https://github.com/uuz/actions.git
-          source_branch: main
-          destination_branch: upstream
-          github_token: ${{ secrets.PAT }}
-
-      - name: Merge upstream
-        uses: tukasz/direct-merge-action@master
-        with:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-          source-branch: upstream
-          target-branch: main
+          source_repo: "https://github.com/shuye73/MyActions.git"
+          source_branch: "main"
+          destination_branch: "main"
+          github_token: ${{ github.event.client_payload.PAT || secrets.PAT }}
